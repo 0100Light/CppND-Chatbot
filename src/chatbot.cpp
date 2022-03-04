@@ -43,9 +43,52 @@ ChatBot::~ChatBot()
 }
 
 //// STUDENT CODE
-////
+ChatBot::ChatBot(ChatBot &other){
+    std::cout << "CC" << std::endl;
+    _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
+    _image = other._image;
+    _currentNode = other._currentNode;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+}
+ChatBot& ChatBot::operator=(ChatBot& other){
+    std::cout << "CA" << std::endl;
+    if (this == &other){ return *this; }
+    _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
+    _image = other._image;
+    _currentNode = other._currentNode;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
 
-////
+    return *this;
+};
+
+ChatBot::ChatBot(ChatBot&& other){
+    std::cout << "MC" << std::endl;
+    _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
+    _image = other._image;
+    _currentNode = other._currentNode;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+    other._image = nullptr;
+    other._currentNode = nullptr;
+    other._chatLogic = nullptr;
+    other._rootNode = nullptr;
+};
+
+ChatBot& ChatBot::operator=(ChatBot&& other){
+    std::cout << "MA" << std::endl;
+    _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
+    _image = other._image;
+    _currentNode = other._currentNode;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+    other._image = nullptr;
+    other._currentNode = nullptr;
+    other._chatLogic = nullptr;
+    other._rootNode = nullptr;
+    return *this;
+};
 //// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
