@@ -43,7 +43,7 @@ ChatBot::~ChatBot()
 }
 
 //// STUDENT CODE
-ChatBot::ChatBot(ChatBot &other){
+ChatBot::ChatBot(const ChatBot &other){
     std::cout << "CC" << std::endl;
     _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
     _image = other._image;
@@ -51,7 +51,7 @@ ChatBot::ChatBot(ChatBot &other){
     _chatLogic = other._chatLogic;
     _rootNode = other._rootNode;
 }
-ChatBot& ChatBot::operator=(ChatBot& other){
+ChatBot& ChatBot::operator=(const ChatBot& other){
     std::cout << "CA" << std::endl;
     if (this == &other){ return *this; }
     _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
@@ -69,6 +69,7 @@ ChatBot::ChatBot(ChatBot&& other){
     _image = other._image;
     _currentNode = other._currentNode;
     _chatLogic = other._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = other._rootNode;
     other._image = nullptr;
     other._currentNode = nullptr;
@@ -82,6 +83,7 @@ ChatBot& ChatBot::operator=(ChatBot&& other){
     _image = other._image;
     _currentNode = other._currentNode;
     _chatLogic = other._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = other._rootNode;
     other._image = nullptr;
     other._currentNode = nullptr;

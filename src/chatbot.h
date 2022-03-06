@@ -28,8 +28,8 @@ public:
     ~ChatBot();
 
     //// STUDENT CODE
-    ChatBot(ChatBot& other); // CC
-    ChatBot& operator=(ChatBot& other); // CA
+    ChatBot(const ChatBot& other); // CC
+    ChatBot& operator=(const ChatBot& other); // CA
     ChatBot(ChatBot&& other); // MC
     ChatBot& operator=(ChatBot&& other); // MA
 

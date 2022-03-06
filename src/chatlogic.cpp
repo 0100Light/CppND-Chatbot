@@ -15,13 +15,15 @@
 ChatLogic::ChatLogic()
 {
     //// STUDENT CODE
-    ////
+    //// Task 5:
+    // Make sure that ChatLogic has no ownership relation to the ChatBot instance and
+    // thus is no longer responsible for memory allocation and deallocation.
 
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    // _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    // _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -33,20 +35,20 @@ ChatLogic::~ChatLogic()
     ////
 
     // delete chatbot instance
-    delete _chatBot;
+    // delete _chatBot;
 
     // delete all nodes
-    for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    {
-        // delete *it;
-        *it = nullptr;
-    }
+    // for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
+    // {
+    //     // delete *it;
+    //     *it = nullptr;
+    // }
 
-    // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
+    // // delete all edges
+    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
+    // {
+    //     delete *it;
+    // }
 
     ////
     //// EOF STUDENT CODE
@@ -131,9 +133,11 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](std::unique_ptr<GraphNode> &node) { return node->GetID() == id; });
 
                         // TASK 3:
-                        // adapt the vector _nodes in a way that the instances of GraphNodes to which the vector elements refer are exclusively owned by the class ChatLogic
+                        // adapt the vector _nodes in a way that the instances of GraphNodes to which
+                        // the vector elements refer are exclusively owned by the class ChatLogic
                         // BUT
-                        // When passing the GraphNode instances to functions, make sure to not transfer ownership and try to contain the changes to class ChatLogic where possible
+                        // When passing the GraphNode instances to functions, make sure to not transfer ownership and
+                        // try to contain the changes to class ChatLogic where possible
 
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
@@ -175,9 +179,17 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
+
+                            //// Task 4:
+                            // change the ownership of all instances of GraphEdge in a way such that each instance of GraphNode exclusively
+                            // owns the outgoing GraphEdges and holds non-owning references to incoming GraphEdges
+
+                            // When transferring ownership from class ChatLogic, where all instances of GraphEdge are created,
+                            // into instances of GraphNode, make sure to use move semantics.
+
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+                            (*childNode)->AddEdgeToParentNode(edge); // incoming -> non-owning
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge)); // outgoing -> own exclusively
                         }
 
                         ////
@@ -223,9 +235,21 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
-    
+    // _chatBot->SetRootNode(rootNode);
+    // rootNode->MoveChatbotHere(std::move(*_chatBot));
+
+    // Task 5:
+    // In file chatlogic.cpp, create a local ChatBot instance on the stack at the bottom of function LoadAnswerGraphFromFile.
+    // Then, use move semantics to pass the ChatBot instance into the root node.
+    // Make sure that ChatLogic has no ownership relation to the ChatBot instance and
+    // thus is no longer responsible for memory allocation and deallocation.
+    //
+    // Note that the member _chatBot remains so it can be used as a communication handle between GUI and ChatBot instance
+    ChatBot chatBot("../images/chatbot.png");
+    chatBot.SetChatLogicHandle(this);
+    chatBot.SetRootNode(rootNode);
+    rootNode->MoveChatbotHere(std::move(chatBot));
+
     ////
     //// EOF STUDENT CODE
 }
