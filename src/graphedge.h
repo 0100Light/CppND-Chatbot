@@ -19,7 +19,7 @@ private:
     
 
 public:
-    // constructor / desctructor
+    // constructor / destructor // (rule of 0? So neither CC, CA, Destructor were implemented)
     GraphEdge(int id);
 
     // getter / setter

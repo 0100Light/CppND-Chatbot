@@ -1,8 +1,6 @@
 #include <fstream>
-#include <sstream>
 #include <iostream>
 #include <vector>
-#include <iterator>
 #include <tuple>
 #include <algorithm>
 
@@ -12,47 +10,12 @@
 #include "chatlogic.h"
 
 
-ChatLogic::ChatLogic()
-{
-    //// STUDENT CODE
-    //// Task 5:
-    // Make sure that ChatLogic has no ownership relation to the ChatBot instance and
-    // thus is no longer responsible for memory allocation and deallocation.
+//// Task 5:
+// Make sure that ChatLogic has no ownership relation to the ChatBot instance and
+// thus is no longer responsible for memory allocation and deallocation.
+ChatLogic::ChatLogic(){}
 
-    // create instance of chatbot
-    // _chatBot = new ChatBot("../images/chatbot.png");
-
-    // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    // _chatBot->SetChatLogicHandle(this);
-
-    ////
-    //// EOF STUDENT CODE
-}
-
-ChatLogic::~ChatLogic()
-{
-    //// STUDENT CODE
-    ////
-
-    // delete chatbot instance
-    // delete _chatBot;
-
-    // delete all nodes
-    // for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    // {
-    //     // delete *it;
-    //     *it = nullptr;
-    // }
-
-    // // delete all edges
-    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    // {
-    //     delete *it;
-    // }
-
-    ////
-    //// EOF STUDENT CODE
-}
+ChatLogic::~ChatLogic(){}
 
 template <typename T>
 void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T &element)
@@ -142,7 +105,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
                         {
-                            // _nodes.emplace_back(new GraphNode(id));
                             _nodes.emplace_back(std::make_unique<GraphNode>(id));
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -235,9 +197,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         }
     }
 
-    // add chatbot to graph root node
-    // _chatBot->SetRootNode(rootNode);
-    // rootNode->MoveChatbotHere(std::move(*_chatBot));
+    // Add chatbot to graph root node
 
     // Task 5:
     // In file chatlogic.cpp, create a local ChatBot instance on the stack at the bottom of function LoadAnswerGraphFromFile.

@@ -65,7 +65,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other){
 
 ChatBot::ChatBot(ChatBot&& other){
     std::cout << "MC" << std::endl;
-    _image = other._image;
+    _image = other._image; // no memory allocation should take place here. (MOVE only)
     other._image = NULL; // Attention: wxWidgets used NULL and not nullptr
     _currentNode = other._currentNode;
     _chatLogic = other._chatLogic;
@@ -79,7 +79,7 @@ ChatBot::ChatBot(ChatBot&& other){
 
 ChatBot& ChatBot::operator=(ChatBot&& other){
     std::cout << "MA" << std::endl;
-    _image = other._image;
+    _image = other._image; // no memory allocation should take place here. (MOVE only)
     other._image = NULL; // Attention: wxWidgets used NULL and not nullptr
     _currentNode = other._currentNode;
     _chatLogic = other._chatLogic;
