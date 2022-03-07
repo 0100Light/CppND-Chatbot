@@ -65,8 +65,8 @@ ChatBot& ChatBot::operator=(const ChatBot& other){
 
 ChatBot::ChatBot(ChatBot&& other){
     std::cout << "MC" << std::endl;
-    _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
     _image = other._image;
+    other._image = NULL; // Attention: wxWidgets used NULL and not nullptr
     _currentNode = other._currentNode;
     _chatLogic = other._chatLogic;
     _chatLogic->SetChatbotHandle(this);
@@ -79,8 +79,8 @@ ChatBot::ChatBot(ChatBot&& other){
 
 ChatBot& ChatBot::operator=(ChatBot&& other){
     std::cout << "MA" << std::endl;
-    _image = new wxBitmap(); // do deep copy of as memory for it is allocated in heap
     _image = other._image;
+    other._image = NULL; // Attention: wxWidgets used NULL and not nullptr
     _currentNode = other._currentNode;
     _chatLogic = other._chatLogic;
     _chatLogic->SetChatbotHandle(this);
